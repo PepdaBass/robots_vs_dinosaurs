@@ -3,10 +3,12 @@ from herd import Herd
 
 class Battlefield:
     def __init__(self):
-    
+        self.battlefield = []
     def run_game(self):
-        pass
-
+        readied_fleet = Fleet()
+        readied_fleet.create_fleet()
+        print(readied_fleet)
+    
     def display_welcome(self):
         pass
 
