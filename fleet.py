@@ -4,6 +4,7 @@ class Fleet:
     def __init__(self):
         self.fleet = []
     
+    # Hardcoded the robots into the fleet. Maybe I'll use a while loop later.
     def create_fleet(self):
         robot1 = Robot('X-0')
         robot2 = Robot('X-1')
