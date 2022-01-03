@@ -7,4 +7,5 @@ class Robot:
         self.weapon = Weapon('Sword', 25)
     
     def attack(self, dinosaur):
-        pass
+        attack_strength = self.weapon.attack_power
+        dinosaur += -(attack_strength)
