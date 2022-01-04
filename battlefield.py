@@ -9,15 +9,14 @@ class Battlefield:
 
     # So far run_game has all the fleet and herd information
     def run_game(self):
-        # self.display_welcome()
+        self.display_welcome()
         self.readied_fleet.create_fleet()
         self.angry_herd.create_herd()
         self.list_names_of_combatants()
         self.dino_turn(self.angry_herd.herd[0])    
         self.robo_turn(self.readied_fleet.fleet[0])
-
-        # self.show_dino_opponent_options() 
-        # self.show_robo_oppenent_options()
+        self.show_dino_opponent_options() 
+        self.show_robo_oppenent_options()
         self.display_winners()  
 
     # Here is the display screen to begin the battle.    
@@ -29,6 +28,7 @@ class Battlefield:
         of three robots defending your base from dinosaur infiltration. Command your troops!
         ''')
 
+    # This function throws the names of the combatant objects into a list of strings.
     def list_names_of_combatants(self):
         self.herd_names = [] 
         for dinosaur in self.angry_herd.herd:
@@ -43,35 +43,22 @@ class Battlefield:
         print(self.fleet_names)
     
     def battle(self):
-        pass
-       
-
-        
-
+        pass # need to figure out battle tomorrow!!!!!
+    
     def dino_turn(self, dinosaur):
         self.dino_stats = []
         self.dino_stats.append(dinosaur.name)
         self.dino_stats.append(dinosaur.health)
         self.dino_stats.append(dinosaur.attack_power)
         print(self.dino_stats)
-        
-        
-        
-        # for dinosaur in self.angry_herd.herd:
-        #     if dinosaur.name == herd_names[random.randrange(0-2)]:
-        #         print(dinosaur.name)
-        #         break
 
     def robo_turn(self, robot):
-            self.robo_stats = []
-            self.robo_stats.append(robot.name)
-            self.robo_stats.append(robot.health)
-            self.robo_stats.append(robot.weapon.name)
-            self.robo_stats.append(robot.weapon.attack_power)
-            print(self.robo_stats)
-        
-        # robot_stats = []
-       
+        self.robo_stats = []
+        self.robo_stats.append(robot.name)
+        self.robo_stats.append(robot.health)
+        self.robo_stats.append(robot.weapon.name)
+        self.robo_stats.append(robot.weapon.attack_power)
+        print(self.robo_stats)
 
         # for robot_soldier in self.readied_fleet.fleet:
         #     if robot_soldier.name == fleet_names[random.randrange(0-2)]:
@@ -96,6 +83,7 @@ class Battlefield:
             elif index == 2:
                 print(f'Attack Power: {self.dino_stats[2]}')
                 break
+        # Index[0] will always be 'Name', index[1] Health, and index[2] attack power.
 
     def show_robo_oppenent_options(self):
         display_stats = False
@@ -113,7 +101,7 @@ class Battlefield:
             elif index == 3:
                 print(f'Attack Power: {self.robo_stats[3]}')
                 break
-                
+        # Index[0] will always be 'Name', index[1] Health, index[2] weapon, and index[3] attack power.
 
     def display_winners(self):
         if len(self.herd_names) > 0:
