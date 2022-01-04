@@ -5,15 +5,19 @@ import random
 class Battlefield:
     def __init__(self):
         self.battlefield = []
-    
+        self.angry_herd = Herd()
+        self.readied_fleet = Fleet()
+
     # So far run_game has all the fleet and herd information
     def run_game(self):
-        readied_fleet = Fleet()
-        readied_fleet.create_fleet()
-        angry_herd = Herd()
-        angry_herd.create_herd()
-        for index in angry_herd:
-            print([index].health) # I have no idea how to pull an attribute from a list of objects
+        self.readied_fleet.create_fleet()
+        self.angry_herd.create_herd()
+        for robot_soldier in self.readied_fleet.fleet:
+            if robot_soldier.name != 'X-1':
+                continue
+            print(robot_soldier.name)
+           
+                
 
     # Here is the display screen to begin the battle.    
     def display_welcome(self):
