@@ -16,6 +16,12 @@ class Battlefield:
             if robot_soldier.name != 'X-1':
                 continue
             print(robot_soldier.name)
+
+        for robot_soldier in self.readied_fleet.fleet:
+            if robot_soldier.weapon.name == 'Sword':
+                print(robot_soldier.weapon.name)
+                break
+           
            
                 
 
