@@ -12,17 +12,29 @@ class Battlefield:
     def run_game(self):
         self.readied_fleet.create_fleet()
         self.angry_herd.create_herd()
-        for robot_soldier in self.readied_fleet.fleet:
-            if robot_soldier.name != 'X-1':
-                continue
-            print(robot_soldier.name)
+        
+        
+        # for robot_soldier in self.readied_fleet.fleet:
+        #     if robot_soldier.name == 'X-1':
+        #         print(robot_soldier.name)
+        #         break
+            
 
+        # for robot_soldier in self.readied_fleet.fleet:
+        #     if robot_soldier.weapon.name == 'Sword':
+        #         print(robot_soldier.weapon.name)
+        #         break
+        fleet_names = [] 
         for robot_soldier in self.readied_fleet.fleet:
-            if robot_soldier.weapon.name == 'Sword':
-                print(robot_soldier.weapon.name)
-                break
-           
-           
+            if len(fleet_names) < 3:
+                fleet_names.append(robot_soldier.name)
+        print(fleet_names)
+
+        herd_names = [] 
+        for dinosaur in self.angry_herd.herd:
+            if len(herd_names) < 3:
+                herd_names.append(dinosaur.name)
+        print(herd_names)
                 
 
     # Here is the display screen to begin the battle.    
@@ -30,7 +42,8 @@ class Battlefield:
         user_name = input('Please enter your name, if you dare: ')
         print('''f
         Welcome {user_name} to the ultimate battlefield where an epic fight between robots and
-        dinosaurs rages! Prepare yourself for the mayhem and destruction!
+        dinosaurs rages! Prepare yourself for the mayhem and destruction! You are a captain in charge
+        of three robots defending your base from dinosaur infiltration. Command your troops!
         ''')
 
     def battle(self):
