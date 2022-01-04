@@ -9,13 +9,16 @@ class Battlefield:
 
     # So far run_game has all the fleet and herd information
     def run_game(self):
-        self.display_welcome()
+        # self.display_welcome()
         self.readied_fleet.create_fleet()
         self.angry_herd.create_herd()
+        self.list_names_of_combatants()
         self.dino_turn(self.angry_herd.herd[0])    
         self.robo_turn(self.readied_fleet.fleet[0])
-        self.show_dino_opponent_options() 
-        self.show_robo_oppenent_options()  
+
+        # self.show_dino_opponent_options() 
+        # self.show_robo_oppenent_options()
+        self.display_winners()  
 
     # Here is the display screen to begin the battle.    
     def display_welcome(self):
@@ -26,6 +29,19 @@ class Battlefield:
         of three robots defending your base from dinosaur infiltration. Command your troops!
         ''')
 
+    def list_names_of_combatants(self):
+        self.herd_names = [] 
+        for dinosaur in self.angry_herd.herd:
+            if len(self.herd_names) < 3:
+                self.herd_names.append(dinosaur.name)
+        print(self.herd_names)
+
+        self.fleet_names = [] 
+        for robot_soldier in self.readied_fleet.fleet:
+            if len(self.fleet_names) < 3:
+                self.fleet_names.append(robot_soldier.name)
+        print(self.fleet_names)
+    
     def battle(self):
         pass
        
@@ -39,11 +55,7 @@ class Battlefield:
         self.dino_stats.append(dinosaur.attack_power)
         print(self.dino_stats)
         
-        # herd_names = [] 
-        # for dinosaur in self.angry_herd.herd:
-        #     if len(herd_names) < 3:
-        #         herd_names.append(dinosaur.name)
-        # print(herd_names)
+        
         
         # for dinosaur in self.angry_herd.herd:
         #     if dinosaur.name == herd_names[random.randrange(0-2)]:
@@ -59,11 +71,7 @@ class Battlefield:
             print(self.robo_stats)
         
         # robot_stats = []
-        # fleet_names = [] 
-        # for robot_soldier in self.readied_fleet.fleet:
-        #     if len(fleet_names) < 3:
-        #         fleet_names.append(robot_soldier.name)
-        # print(fleet_names)
+       
 
         # for robot_soldier in self.readied_fleet.fleet:
         #     if robot_soldier.name == fleet_names[random.randrange(0-2)]:
@@ -108,5 +116,10 @@ class Battlefield:
                 
 
     def display_winners(self):
-        pass
+        if len(self.herd_names) > 0:
+            for dinosaurs in self.herd_names:
+                print(dinosaurs)
+        elif len(self.fleet_names) > 0:
+            for robots in self.fleet_names:
+                print(robots)
 
