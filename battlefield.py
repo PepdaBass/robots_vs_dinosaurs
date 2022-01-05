@@ -30,46 +30,38 @@ class Battlefield:
         for dinosaur in self.angry_herd.herd:
             if len(self.herd_names) < 3:
                 self.herd_names.append(dinosaur.name)
-        print(self.herd_names)
+        # print(self.herd_names)
 
         self.fleet_names = [] 
         for robot_soldier in self.readied_fleet.fleet:
             if len(self.fleet_names) < 3:
                 self.fleet_names.append(robot_soldier.name)
-        print(self.fleet_names)
+        # print(self.fleet_names)
     
     def battle(self):
-        ultimate_victory = False
-        while ultimate_victory is False:
-            if len(self.herd_names) < 1 or len(self.fleet_names) < 1:
-                ultimate_victory = True
-                self.display_winners()
-            elif len(self.herd_names) > 0 or len(self.fleet_names) > 0:
-                battle_counter = 0
-                attack_attempt = False
-                while attack_attempt is False:
-                    self.correct_opponent_health()
-                    if self.dino_stats[1] < 1 or self.robo_stats[1] < 1:
-                        self.opponent_death
-                        attack_attempt = True
-                    elif battle_counter == 0:
-                        self.show_robo_oppenent_options()
-                        self.readied_fleet.fleet[0].attack(self.angry_herd.herd[self.correct_dino_index])
-                        battle_counter += 1
-                        self.versus_battle_stats()
-                        self.opponent_death()
-                    elif battle_counter % 2 != 0:
-                        self.show_dino_opponent_options()
-                        self.angry_herd.herd[0].attack(self.readied_fleet.fleet[self.correct_robot_index])
-                        battle_counter +=1
-                        self.versus_battle_stats()
-                        self.opponent_death()
-                    elif battle_counter % 2 == 0:
-                        self.show_robo_oppenent_options
-                        self.readied_fleet.fleet[0].attack(self.angry_herd.herd[self.correct_dino_index])
-                        battle_counter += 1
-                        self.versus_battle_stats()
-                        self.opponent_death()
+        battle_counter = 0
+        attack_attempt = False
+        while attack_attempt is False:
+            self.correct_opponent_health()
+            if self.dino_stats[1] < 1 or self.robo_stats[1] < 1:
+                self.opponent_death
+                attack_attempt = True
+            elif battle_counter == 0:
+                print()
+                self.readied_fleet.fleet[0].attack(self.angry_herd.herd[self.correct_dino_index])
+                battle_counter += 1
+                self.versus_battle_stats()
+                self.opponent_death()
+            elif battle_counter % 2 != 0:
+                self.angry_herd.herd[0].attack(self.readied_fleet.fleet[self.correct_robot_index])
+                battle_counter +=1
+                self.versus_battle_stats()
+                self.opponent_death()
+            elif battle_counter % 2 == 0:
+                self.readied_fleet.fleet[0].attack(self.angry_herd.herd[self.correct_dino_index])
+                battle_counter += 1
+                self.versus_battle_stats()
+                self.opponent_death()
 
      # Makes sure the correct opponents health is being modified by that attacks in the battle.           
     def correct_opponent_health(self):
@@ -108,38 +100,52 @@ class Battlefield:
     def versus_battle_stats(self):
         versus_battle_dino = False
         while versus_battle_dino is False:
-            if len(self.herd_names) == 3:
+            if len(self.fleet_names) < 1:
+                versus_battle_dino = True
+                self.display_winners()
+            elif len(self.herd_names) == 3:
                 self.dino_turn(self.angry_herd.herd[0])
                 versus_battle_dino = True
+                print(' ')
+                print('Current Stats:')
+                self.show_dino_opponent_options()
+                print(' ')
             elif len(self.herd_names) == 2:
                 self.dino_turn(self.angry_herd.herd[1])
                 versus_battle_dino = True
+                print(' ')
+                print('Current Stats:')
+                self.show_dino_opponent_options()
+                print(' ')
             elif len(self.herd_names) == 1:
                 self.dino_turn(self.angry_herd.herd[2])
                 versus_battle_dino = True
-            elif len(self.herd_names) < 1:
-                versus_battle_dino = True
-                self.display_winners()
-            print(' ')
-            print('Current Stats:')
-            self.show_dino_opponent_options()
-            print(' ')
+                print(' ')
+                print('Current Stats:')
+                self.show_dino_opponent_options()
+                print(' ')
+    
         versus_battle_robot = False
         while versus_battle_robot is False:
-            if len(self.fleet_names) == 3:
+            if len(self.herd_names) < 1:
+                versus_battle_robot = True
+                self.display_winners()
+            elif len(self.fleet_names) == 3:
                 self.robo_turn(self.readied_fleet.fleet[0])
                 versus_battle_robot = True
+                self.show_robo_oppenent_options()
+                print(' ')
             elif len(self.fleet_names) == 2:
                 self.robo_turn(self.readied_fleet.fleet[1])
                 versus_battle_robot = True
+                self.show_robo_oppenent_options()
+                print(' ')
             elif len(self.fleet_names) == 1:
                 self.robo_turn(self.readied_fleet.fleet[2])
                 versus_battle_robot = True
-            elif len(self.fleet_names) < 1:
-                versus_battle_robot = True
-                self.display_winners()
-            self.show_robo_oppenent_options()
-            print(' ')
+                self.show_robo_oppenent_options()
+                print(' ')
+           
     
     def dino_turn(self, dinosaur):
         self.dino_stats = []
