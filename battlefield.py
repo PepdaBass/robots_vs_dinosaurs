@@ -7,14 +7,13 @@ class Battlefield:
         self.angry_herd = Herd()
         self.readied_fleet = Fleet()
 
-    # So far run_game has all the fleet and herd information
     def run_game(self):
-        self.display_welcome()
+        # self.display_welcome()
         self.readied_fleet.create_fleet()
         self.angry_herd.create_herd()
         self.list_names_of_combatants()
-        self.print_versus_battle_stats()
-        self.display_winners()  
+        self.versus_battle_stats()
+        self.battle() 
 
     # Here is the display screen to begin the battle.    
     def display_welcome(self):
@@ -40,25 +39,53 @@ class Battlefield:
         # print(self.fleet_names)
     
     def battle(self):
-        pass
+        ultimate_victory = False
+        while ultimate_victory is False:
+            if len(self.herd_names) < 1 or len(self.fleet_names) < 1:
+                ultimate_victory = True
+                self.display_winners()
+            elif len(self.herd_names) > 0 or len(self.fleet_names) > 0:
+                battle_counter = 0
+                attack_attempt = False
+                while attack_attempt is False:
+                    if self.dino_stats[1] < 1 or self.robo_stats[1] < 1:
+                        self.opponent_death
+                        attack_attempt = True
+                    elif battle_counter == 0:
+                        self.show_robo_oppenent_options()
+                        self.readied_fleet.fleet[0].attack(self.angry_herd.herd[0])
+                        battle_counter += 1
+                        self.opponent_death()
+                    elif battle_counter % 2 != 0:
+                        self.show_dino_opponent_options()
+                        self.angry_herd.herd[0].attack(self.readied_fleet.fleet[0])
+                        battle_counter +=1
+                        self.opponent_death()
+                    elif battle_counter % 2 == 0:
+                        self.show_robo_oppenent_options
+                        self.readied_fleet.fleet[0].attack(self.angry_herd.herd[0])
+                        battle_counter += 1
+                        self.opponent_death()
+                
         
-
+    # Checks to see if health is equal to zero or below and, if so, pops the name out of herd_names
+    # or fleet_names so that I can move onto the next opponent in the list via versus_battle_stats().
     def opponent_death(self):
         if self.dino_stats[1] <= 0:
             print(f'{self.herd_names[0]} was killed.')
             print(' ')
             loser = self.herd_names.pop[0]
-            self.print_versus_battle_stats()
+            self.versus_battle_stats()
         elif self.robo_stats[1] <= 0:
             print(f'{self.fleet_names[0]} was killed.')
             print(' ')
             loser = self.fleet_names.pop[0]
-            self.print_versus_battle_stats()
+            self.versus_battle_stats()
         else:
-            self.print_versus_battle_stats()
+            self.versus_battle_stats()
             
-
-    def print_versus_battle_stats(self):
+    # This ensures that each robot or dinosaur is cycled to after one dies and its stats are printed.
+    def versus_battle_stats(self):
         versus_battle_dino = False
         while versus_battle_dino is False:
             if len(self.herd_names) == 3:
@@ -70,6 +97,7 @@ class Battlefield:
             elif len(self.herd_names) == 1:
                 self.dino_turn(self.angry_herd.herd[2])
                 versus_battle_dino = True
+            print(' ')
             print('Current Stats:')
             self.show_dino_opponent_options()
             print(' ')
@@ -147,9 +175,11 @@ class Battlefield:
 
     def display_winners(self):
         if len(self.herd_names) > 0:
+            print('The victors are:')
             for dinosaurs in self.herd_names:
                 print(dinosaurs)
         elif len(self.fleet_names) > 0:
+            print('The victors are:')
             for robots in self.fleet_names:
                 print(robots)
 

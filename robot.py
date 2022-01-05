@@ -8,5 +8,5 @@ class Robot:
 
     # I'm not feeling super comfortable with this being the attack method...    
     def attack(self, dinosaur):
-        attack_strength = self.weapon.attack_power
-        dinosaur += -(attack_strength)
+        dinosaur.health -= self.weapon.attack_power
+        

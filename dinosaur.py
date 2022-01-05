@@ -6,5 +6,5 @@ class Dinosaur:
 
     # I'm not feeling super comfortable with this being the attack method... 
     def attack(self, robot):
-        attack_strength = self.attack_power
-        robot += -(attack_strength)
+        robot.health -= self.attack_power
+       
