@@ -8,12 +8,13 @@ class Battlefield:
         self.readied_fleet = Fleet()
 
     def run_game(self):
-        # self.display_welcome()
+        self.display_welcome()
         self.readied_fleet.create_fleet()
         self.angry_herd.create_herd()
         self.list_names_of_combatants()
         self.versus_battle_stats()
-        self.battle() 
+        self.battle()
+        self.display_winners()
 
     # Here is the display screen to begin the battle.    
     def display_welcome(self):
@@ -43,26 +44,45 @@ class Battlefield:
         attack_attempt = False
         while attack_attempt is False:
             self.correct_opponent_health()
-            if self.dino_stats[1] < 1 or self.robo_stats[1] < 1:
-                self.opponent_death
+            self.attack_success = random.randrange(0, 10)
+            if len(self.herd_names) == 0 or len(self.fleet_names) == 0:
                 attack_attempt = True
-            elif battle_counter == 0:
-                print()
-                self.readied_fleet.fleet[0].attack(self.angry_herd.herd[self.correct_dino_index])
-                battle_counter += 1
-                self.versus_battle_stats()
-                self.opponent_death()
+            elif battle_counter == 0 or battle_counter % 2 == 0:
+                print(input('Command your fleet! Press Enter to attack: '))
+                if self.attack_success <=3:
+                    print('Your robot malfunctioned and missed!')
+                    battle_counter += 1
+                    self.versus_battle_stats()
+                    self.opponent_death()
+                    continue
+                elif self.attack_success >= 4:
+                    print('Your robot scores a hit!')
+                    self.readied_fleet.fleet[self.correct_robot_index].attack(self.angry_herd.herd[self.correct_dino_index])
+                    battle_counter += 1
+                    self.versus_battle_stats()
+                    self.opponent_death()
             elif battle_counter % 2 != 0:
-                self.angry_herd.herd[0].attack(self.readied_fleet.fleet[self.correct_robot_index])
-                battle_counter +=1
-                self.versus_battle_stats()
-                self.opponent_death()
-            elif battle_counter % 2 == 0:
-                self.readied_fleet.fleet[0].attack(self.angry_herd.herd[self.correct_dino_index])
-                battle_counter += 1
-                self.versus_battle_stats()
-                self.opponent_death()
-
+                print('The dinosaur attacks!')
+                if self.attack_success <=6:
+                    print('The dinosaur failed to hit your robot!')
+                    battle_counter += 1
+                    self.versus_battle_stats()
+                    self.opponent_death()
+                    continue
+                elif self.attack_success >= 7:
+                    print('The dinosaur hits the robot...')
+                    self.angry_herd.herd[self.correct_dino_index].attack(self.readied_fleet.fleet[self.correct_robot_index])
+                    battle_counter += 1
+                    self.versus_battle_stats()
+                    self.opponent_death()
+            # elif battle_counter % 2 == 0:
+            #     print(input('Command your fleet! Press Enter to attack: '))
+            #     self.readied_fleet.fleet[0].attack(self.angry_herd.herd[self.correct_dino_index])
+            #     battle_counter += 1
+            #     self.versus_battle_stats()
+            #     self.opponent_death()
+     
+     
      # Makes sure the correct opponents health is being modified by that attacks in the battle.           
     def correct_opponent_health(self):
         if len(self.fleet_names) == 3:
@@ -71,6 +91,8 @@ class Battlefield:
             self.correct_robot_index = 1
         elif len(self.fleet_names) == 1:
             self.correct_robot_index = 2
+        else:
+            pass
 
         if len(self.herd_names) == 3:
             self.correct_dino_index = 0
@@ -78,31 +100,38 @@ class Battlefield:
             self.correct_dino_index = 1
         elif len(self.herd_names) == 1:
             self.correct_dino_index = 2
+        else:
+            pass
    
     # Checks to see if health is equal to zero or below and, if so, pops the name out of herd_names
     # or fleet_names so that I can move onto the next opponent in the list via versus_battle_stats().
     def opponent_death(self):
         self.loser = ''
         if self.dino_stats[1] <= 0:
-            print(f'{self.herd_names[0]} was killed.')
+            print(f'{self.herd_names[0]} was annihilated.')
             print(' ')
-            self.loser = self.herd_names.pop(0)
-            self.versus_battle_stats()
+            if len(self.herd_names) == 0:
+                pass
+            elif len(self.herd_names) >= 1:
+                self.loser = self.herd_names.pop(0)
+                print(self.herd_names)
+                self.versus_battle_stats()
         elif self.robo_stats[1] <= 0:
-            print(f'{self.fleet_names[0]} was killed.')
+            print(f'{self.fleet_names[0]} was destroyed.')
             print(' ')
-            self.loser = self.fleet_names.pop(0)
-            self.versus_battle_stats()
-        else:
-            self.versus_battle_stats()
+            if len(self.fleet_names) == 0:
+                pass
+            elif len(self.fleet_names) >= 1:
+                self.loser = self.fleet_names.pop(0)
+                print(len(self.fleet_names))
+                self.versus_battle_stats()
             
     # This ensures that each robot or dinosaur is cycled to after one dies and its stats are printed.
     def versus_battle_stats(self):
         versus_battle_dino = False
         while versus_battle_dino is False:
-            if len(self.fleet_names) < 1:
+            if len(self.fleet_names) == 0 or len(self.herd_names) == 0:
                 versus_battle_dino = True
-                self.display_winners()
             elif len(self.herd_names) == 3:
                 self.dino_turn(self.angry_herd.herd[0])
                 versus_battle_dino = True
@@ -127,9 +156,8 @@ class Battlefield:
     
         versus_battle_robot = False
         while versus_battle_robot is False:
-            if len(self.herd_names) < 1:
+            if len(self.herd_names) == 0 or len(self.fleet_names) == 0:
                 versus_battle_robot = True
-                self.display_winners()
             elif len(self.fleet_names) == 3:
                 self.robo_turn(self.readied_fleet.fleet[0])
                 versus_battle_robot = True
@@ -206,11 +234,11 @@ class Battlefield:
         # Index[0] will always be 'Name', index[1] Health, index[2] weapon, and index[3] attack power.
 
     def display_winners(self):
-        if len(self.fleet_names) < 1:
+        if len(self.fleet_names) == 0:
             print('The victors are:')
             for dinosaurs in self.herd_names:
                 print(dinosaurs)
-        elif len(self.herd_names) < 1:
+        elif len(self.herd_names) == 0:
             print('The victors are:')
             for robots in self.fleet_names:
                 print(robots)

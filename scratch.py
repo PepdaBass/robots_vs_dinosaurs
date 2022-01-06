@@ -4,4 +4,8 @@ print(list[1])
 list[1] = 3
 print(list[1])
 
-print(list)
+list.pop()
+list.pop()
+list.pop()
+
+print(len(list))
