@@ -23,6 +23,8 @@ class Battlefield:
         Welcome ''' + user_name + ''' to the ultimate battlefield where an epic fight between robots and
         dinosaurs rages! Prepare yourself for the mayhem and destruction! You are a captain in charge
         of three robots defending your base from dinosaur infiltration. Command your troops!
+
+        The first wave is a Tyrannosaurus Rex!
         ''')
 
     # This function throws the names of the combatant objects into a list of strings.
@@ -62,9 +64,9 @@ class Battlefield:
                     self.versus_battle_stats()
                     self.opponent_death()
             elif battle_counter % 2 != 0:
-                print('The dinosaur attacks!')
+                print(input('The dinosaurs are attacking! Prepare to defend by pressing Enter: '))
                 if self.attack_success <=6:
-                    print('The dinosaur failed to hit your robot!')
+                    print('You dodged the dinosaur attack!')
                     battle_counter += 1
                     self.versus_battle_stats()
                     self.opponent_death()
@@ -114,7 +116,6 @@ class Battlefield:
                 pass
             elif len(self.herd_names) >= 1:
                 self.loser = self.herd_names.pop(0)
-                print(self.herd_names)
                 self.versus_battle_stats()
         elif self.robo_stats[1] <= 0:
             print(f'{self.fleet_names[0]} was destroyed.')
@@ -123,7 +124,6 @@ class Battlefield:
                 pass
             elif len(self.fleet_names) >= 1:
                 self.loser = self.fleet_names.pop(0)
-                print(len(self.fleet_names))
                 self.versus_battle_stats()
             
     # This ensures that each robot or dinosaur is cycled to after one dies and its stats are printed.
