@@ -5,8 +5,7 @@ class Robot:
         self.name = name
         self.health = 100
         self.weapon = Weapon('Sword', 25)
-
-    # I'm not feeling super comfortable with this being the attack method...    
+   
     def attack(self, dinosaur):
         dinosaur.health -= self.weapon.attack_power
         
