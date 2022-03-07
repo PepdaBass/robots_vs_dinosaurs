@@ -1,17 +1,19 @@
-FROM python:alpine
+FROM python:slim
+
+ADD main.py /
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONBUFFERED=1
 
-WORKDIR /usr/app
+WORKDIR /app
 
-COPY requirements.txt/ ./
-RUN pip3 install pipenv
+COPY requirements.txt ./
+RUN python -m pip install -r requirements.txt
 
-COPY ./ ./
 
 RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
 USER appuser
-RUN pipenv shell
 
-CMD ["python", "manage.py", "runserver"]
+COPY ./ ./
+
+CMD ["python", "main.py"]
